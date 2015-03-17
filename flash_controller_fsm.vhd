@@ -32,23 +32,23 @@ use ieee.std_logic_unsigned.all;
 --use UNISIM.VComponents.all;
 
 entity fsm is
-port(      A 								: out   	std_logic_vector (18 downto 0);
+port(   A 					: out   std_logic_vector (18 downto 0);
 
-			  operation_counter			: out    std_logic_vector (39 downto 0);
+	operation_counter			: out   std_logic_vector (39 downto 0);
 			  
-			  LED,DQ 					 	: out 	std_logic_vector (7 downto 0);
+	LED,DQ 					: out 	std_logic_vector (7 downto 0);
 			  
-			  dout, DfromF					: in 		std_logic_vector (7 downto 0); 
+	dout, DfromF				: in 	std_logic_vector (7 downto 0); 
 			  
-			  CE, OE, 
-			  WE, outen, 	
-			  tx_start_r, 
-			  send_time						: out   	std_logic;	  
+	CE, OE, 
+	WE, outen, 	
+	tx_start_r, 
+	send_time				: out   std_logic;	  
           
-			  clk, rst, 
-			  tx_done, 
-			  tx_done_tick_r,				
-			  rx_done_tick					: in 		std_logic
+	clk, rst, 
+	tx_done, 
+	tx_done_tick_r,				
+	rx_done_tick				: in 	std_logic
 			  
 			  );
 end fsm;
@@ -57,15 +57,15 @@ architecture Behavioral of fsm is
 
 	type state_type is  (	IDLE, COMMAND, OPERATION, DATA, 
 
-									WRITE0, WRITE1, WRITE2, WRITE3,
+				WRITE0, WRITE1, WRITE2, WRITE3,
 								
-									WRITE4, READY0, READY1,READY2,
+				WRITE4, READY0, READY1,READY2,
 								
-									READY3, READY4, READY5,ADDINC, 
+				READY3, READY4, READY5,ADDINC, 
 								
-									READ0, READ1, READSETUP, READSETUP1,
+				READ0, READ1, READSETUP, READSETUP1,
 								
-									TRANSMIT0,TRANSMIT1,TRANSMIT2, SEND_TIMING
+				TRANSMIT0,TRANSMIT1,TRANSMIT2, SEND_TIMING
 	
 								);
 													
@@ -75,37 +75,37 @@ architecture Behavioral of fsm is
 	type array_type is array(0 to 6) of std_logic_vector(18 downto 0);
 
 	constant block_addr : array_type := (	"1111100000000000000",	-- Block addresses to erase
-														"1111010000000000000",
-														"1111000000000000000",
-														"1100000000000000000",
-														"1000000000000000000",
-														"0100000000000000001",
-														"0000000000000000000"
-													);
+						"1111010000000000000",
+						"1111000000000000000",
+						"1100000000000000000",
+						"1000000000000000000",
+						"0100000000000000001",
+						"0000000000000000000"
+						);
 
 
-	signal operation_counter_reg 		:  std_logic_vector(39 downto 0)	:= (others => '0'); -- Timing counter for program/erase operation
+	signal operation_counter_reg 	:  std_logic_vector(39 downto 0) := (others => '0'); 	-- Timing counter for program/erase operation
 	
-	signal count  							:  std_logic_vector(31 downto 0)	:= (others => '0'); -- counter for state machine
+	signal count  			:  std_logic_vector(31 downto 0) := (others => '0'); 	-- counter for state machine
 	
-	signal Pre_A  							:  std_logic_vector(18 downto 0) := (others => '0'); -- Address register
+	signal Pre_A  			:  std_logic_vector(18 downto 0) := (others => '0'); 	-- Address register
 	
-	signal DQ_reg							:  std_logic_vector(7 downto 0)	:= (others => '0'); -- register for flash program/erase operation setup and data 
+	signal DQ_reg			:  std_logic_vector(7 downto 0)	 := (others => '0'); 	-- register for flash program/erase operation setup and data 
 	
-	signal setup 							:  std_logic_vector(7 downto 0)	:= (others => '0'); -- setup register for erase operation
+	signal setup 			:  std_logic_vector(7 downto 0)	 := (others => '0'); 	-- setup register for erase operation
 	
-	signal dtow 							:  std_logic_vector(7 downto 0)  := (others => '0'); -- data register for program operation
+	signal dtow 			:  std_logic_vector(7 downto 0)  := (others => '0'); 	-- data register for program operation
 	
-	signal cmd								:  std_logic_vector(7 downto 0)	:= (others => '0'); -- cmd register to store the command coming from serial port
+	signal cmd			:  std_logic_vector(7 downto 0)	 := (others => '0'); 	-- cmd register to store the command coming from serial port
 	
-	signal LED_reg							:  std_logic_vector(7 downto 0)	:= (others => '0'); -- LED register to store state of the operation 
-																													  -- and data coming from Flash to display 
-																													  -- and send to serial interface 
-	signal DfromF_reg	  					:  std_logic_vector(7 downto 0)  := (others => '0'); -- Register for the data coming from Flash memory 
+	signal LED_reg			:  std_logic_vector(7 downto 0)	 := (others => '0'); 	-- LED register to store state of the operation 
+												-- and data coming from Flash to display 
+												-- and send to serial interface 
+	signal DfromF_reg	 	:  std_logic_vector(7 downto 0)  := (others => '0'); 	-- Register for the data coming from Flash memory 
 	
-	signal block_cnt 						:  std_logic_vector(3 downto 0)  := (others => '0'); -- counter for indexing the block_addr array 
+	signal block_cnt 		:  std_logic_vector(3 downto 0)  := (others => '0'); 	-- counter for indexing the block_addr array 
 	
-	signal address_select 				:  std_logic := '0';											  -- register for selecting the address between write,read and erase
+	signal address_select 		:  std_logic := '0';					-- register for selecting the address between write,read and erase
 
 
 
