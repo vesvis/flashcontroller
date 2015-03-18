@@ -7,9 +7,9 @@
 // Design Name: 
 // Module Name:    Conv5x8 
 // Project Name: 
-// Target Devices: 
+// Target Devices: Spartan 6 Anvly Board
 // Tool versions: 
-// Description: 
+// Description: Converts 40 bits of a counter value into five 
 //
 // Dependencies: 
 //
