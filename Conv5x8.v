@@ -82,12 +82,12 @@ begin
 	  4'b0001: begin adout_v <= roout[39:32]; tx_start_v <= 1'b1; tx_done_v <= 1'b0; end
 	  4'b0010: begin adout_v <= roout[39:32]; tx_start_v <= 1'b0; tx_done_v <= 1'b0; end
 
-    4'b0011: begin adout_v <= roout[31:24]; tx_start_v <= 1'b0; tx_done_v <= 1'b0; end	 
-    4'b0100: begin adout_v <= roout[31:24]; tx_start_v <= 1'b1; tx_done_v <= 1'b0; end
-	  4'b0101: begin adout_v <= roout[31:24]; tx_start_v <= 1'b0; tx_done_v <= 1'b0; end
+    	4'b0011: begin adout_v <= roout[31:24]; tx_start_v <= 1'b0; tx_done_v <= 1'b0; end	 
+    	4'b0100: begin adout_v <= roout[31:24]; tx_start_v <= 1'b1; tx_done_v <= 1'b0; end
+	4'b0101: begin adout_v <= roout[31:24]; tx_start_v <= 1'b0; tx_done_v <= 1'b0; end
     
-	  4'b0110: begin adout_v <= roout[23:16];  tx_start_v <= 1'b0; tx_done_v <= 1'b0; end 
-    4'b0111: begin adout_v <= roout[23:16];  tx_start_v <= 1'b1; tx_done_v <= 1'b0; end 
+	 4'b0110: begin adout_v <= roout[23:16];  tx_start_v <= 1'b0; tx_done_v <= 1'b0; end 
+	 4'b0111: begin adout_v <= roout[23:16];  tx_start_v <= 1'b1; tx_done_v <= 1'b0; end 
     4'b1000: begin adout_v <= roout[23:16];  tx_start_v <= 1'b0; tx_done_v <= 1'b0; end
 
     4'b1001: begin adout_v <= roout[15:8];   tx_start_v <= 1'b0; tx_done_v <= 1'b0; end	 
